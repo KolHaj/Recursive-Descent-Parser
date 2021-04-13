@@ -1,0 +1,15 @@
+Window "Nested Panel" (500, 250) Layout Flow:
+  Label "Nested Panel";
+  Panel Layout Flow:
+    Panel Layout Flow:
+      Panel Layout Flow:
+        Panel Layout Flow:
+          Button "This button";
+        End;
+        Button "that button";
+      End;
+      Button "another button";
+    End;
+    Button "and another button";
+  End;
+End.
