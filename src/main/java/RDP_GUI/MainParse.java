@@ -16,17 +16,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Stack;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 
 public class MainParse {
-	
     //Variables
     private BufferedReader BR;
     private static Stack <String> charValue;
@@ -41,21 +34,31 @@ public class MainParse {
 
 	public static void main (String[] args){
         MainParse startGUI = new MainParse();
-    }  
-    
+    }
     //Starts parse process
     public MainParse() {
-    	charValue = new Stack <String> ();
+    	charValue = new Stack <String>();
         retrieveFile();
     }
     /**
      * Analyzing of input text file
      */
     private void retrieveFile() {
+        /**
+         * JFileChooser opens current source code directory for easy resources access
+         * The test files are located in the resources folder
+         */
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView());
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        fileChooser.setCurrentDirectory(workingDirectory);
+        fileChooser.showOpenDialog(null);
+        File file = fileChooser.getSelectedFile();
+
         try {
-        	File file = new File("C:\\Source_Code\\IntelliJ_Work\\RecursiveDP_GUI\\src\\main\\resources\\Nest_Panel.txt");
+            //Open the save dialog
+            //file.showSaveDialog(null);
+        	//File file = new File("C:\\Source_Code\\IntelliJ_Work\\RecursiveDP_GUI\\src\\main\\resources\\Nest_Panel.txt");
             BR = new BufferedReader(new FileReader(file));
-            
             inputBreak();
             reverse();
             descentParser();
@@ -108,8 +111,7 @@ public class MainParse {
 			e.printStackTrace(); 
 			return;
 		}
-	} 
-
+	}
 	/**
 	 * Using a recursive function to reorder the stack
 	 */
@@ -145,7 +147,6 @@ public class MainParse {
             
             windowBody.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             charValue.pop();
-            
             //Title and width
             if (charValue.peek().equals("\"")) {
             	charValue.pop();
@@ -205,7 +206,6 @@ public class MainParse {
         }
         JOptionPane.showMessageDialog(null, "Error GUI", "Alert", JOptionPane.ERROR_MESSAGE);
     }
-    
     /**
      * Layout of the window
      */
@@ -246,7 +246,6 @@ public class MainParse {
                         return false;
                     }
                     charValue.pop();
-                    
                     //Sets values
                     if(charValue.peek().equals(")")){
                         if(windowCheck){
@@ -258,7 +257,6 @@ public class MainParse {
                         charValue.pop();
                         return true;
                     }
-                    
                     //Checks and parse column space and row space
                     else if(charValue.peek().equals(",")){
                     	charValue.pop();
@@ -297,8 +295,7 @@ public class MainParse {
         }
         JOptionPane.showMessageDialog(null, "Layout Parse Error", "Alert", JOptionPane.ERROR_MESSAGE);
         return false;
-    }    
-    
+    }
     /**
      * Checking and parsing layout
      */
@@ -338,7 +335,6 @@ public class MainParse {
         }
         return false;
     }
-    
     /**
      * Each widget is parsed matching the grammar
      */
